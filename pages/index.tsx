@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { json } from "stream/consumers";
 
 const url1 = "https://dummyjson.com/products";
 const url2 = "https://jsonplaceholder.typicode.com/posts"
@@ -8,6 +9,8 @@ const url3 = "http://localhost:3000/api/random-num"
 export default function Home() {
 
   const [data, setData] = useState([]);
+  const [num, setNum] = useState([]);
+  // let num = "";
 
   const apiGet = () => {
     fetch(url1)
@@ -19,6 +22,15 @@ export default function Home() {
       });
   };
 
+  const numberGet = () => {
+    fetch('/api/random-num')
+      .then((response) => response.json())
+      .then((json) => {
+        setNum(json.num)
+        console.log(`Random num is ${json.num}`)
+      })
+  };
+
   const imgStyle = {
       width: "250px",
   };
@@ -27,6 +39,8 @@ export default function Home() {
     <>
       <div>
         <h1>API Call</h1>
+        <h2>Your number is {num}</h2>
+        <button onClick={numberGet}>get random num</button>
         <br />
           <button onClick={apiGet}>Fetch API</button>
         <br />

@@ -40,6 +40,13 @@ export default function Home() {
       })
   };
 
+  const newApi = () => {
+    axios.get("/api/random-num")
+    .then(function (response) {
+      console.log(response.data.num);
+    })
+  }
+
   const imgStyle = {
       width: "150px",
       height: "150px"
@@ -70,12 +77,13 @@ export default function Home() {
               </div> */}
 
               <div className={styles.description}>
-                <button onClick={apiGet}>Fetch API</button>
-                {data.length > 1 ? <p>data</p> : <p>no data</p>}
-                {clicked ? <button onClick={handleClick}>View</button> : <button onClick={handleClick}>Hide</button>}
+                
+                {data.length == 0 ? <button onClick={apiGet}>View Products</button> : null}
+                
               </div>
 
-              <div className={!clicked? styles.gridshow : styles.gridhide}>
+              {/* <div className={!clicked? styles.gridshow : styles.gridhide}> */}
+              <div className={styles.gridshow}>
                 {renderedData}
               </div>
 

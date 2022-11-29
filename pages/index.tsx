@@ -14,6 +14,7 @@ export default function Home() {
 
   const [data, setData] = useState([]);
   const [num, setNum] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const [clicked, setClicked] = React.useState(false);
 
@@ -22,10 +23,13 @@ export default function Home() {
   };
 
   const apiGet = () => {
+    setLoading(true)
     fetch(url1)
+      
       .then((response) => response.json())
       .then((json) => {
         setData(json.products);
+        setLoading(false)
         console.log(json.products);
         
       });
@@ -65,6 +69,9 @@ export default function Home() {
         <h3>{brand}</h3>
       </div>
   ));
+
+
+  if (loading) return <h1 className={styles.title}>LOADING</h1>
 
   return (
     <div className={styles.container}>

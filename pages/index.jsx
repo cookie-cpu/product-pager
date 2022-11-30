@@ -80,7 +80,7 @@ export default function Home() {
       height: "150px"
   };
 
-  const renderedData = data.map(({id, title, description, price, stock, brand, category, thumbnail, images, rating}: any) => (
+  const renderedData = data.map(({id, title, description, price, stock, brand, category, thumbnail, images, rating}) => (
 
         <div key={id} className={styles.card}>
           <h2>{title}</h2>
@@ -108,7 +108,7 @@ export default function Home() {
     
   // ));
 
-  const renderedCart = cart.map((item: any)=>(
+  const renderedCart = cart.map((item)=>(
     
     <li key={item.id}>
        {item.name} ,${item.price}

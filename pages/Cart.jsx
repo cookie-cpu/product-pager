@@ -16,7 +16,7 @@ export default function Cart({ cart, total, clearCart, cartList }) {
             <p className={styles.description}>
                 <sup>Total: ${total}</sup>
                 <br />
-                <sup>Items:{cart.length}</sup>
+                {/* <sup>Items:{cart.length}</sup> */}
                 <br />
                 <button className={styles.button} onClick={clearCart()}>Empty Cart</button>
             </p>

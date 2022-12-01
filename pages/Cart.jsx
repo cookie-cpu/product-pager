@@ -10,7 +10,7 @@ export default function Cart({ cart, total, clearCart, cartList }) {
             <h1 className={styles.title}>CART</h1>
 
             <ul className={styles.list}>
-                {cartList}
+                {/* {cartList} */}
             </ul>
 
             <p className={styles.description}>
@@ -18,7 +18,7 @@ export default function Cart({ cart, total, clearCart, cartList }) {
                 <br />
                 {/* <sup>Items:{cart.length}</sup> */}
                 <br />
-                <button className={styles.button} onClick={clearCart()}>Empty Cart</button>
+                {/* <button className={styles.button} onClick={clearCart}>Empty Cart</button> */}
             </p>
         </div>
     )

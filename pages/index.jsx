@@ -2,21 +2,17 @@ import styles from '../styles/Home.module.css'
 import React, { useState, useEffect } from "react";
 import { RatingStar } from "rating-star";
 import { v4 as uuidv4 } from 'uuid';
+import Cart from './Cart';
 
 const url = "https://dummyjson.com/products?skip=5&limit=100";
 
 export default function Home() {
+
   const [data, setData] = useState([]);
-  const [numberID, setNumberID] = useState(uuidv4());
+  // const [numberID, setNumberID] = useState(uuidv4());
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
-  
-  // const [clicked, setClicked] = useState(false);
-
-  // const handleClick = () => {
-  //   setClicked(!clicked);
-  // };
 
   const apiGet = () => {
     setLoading(true)
@@ -43,21 +39,19 @@ export default function Home() {
     
   }
 
-  
-  
   const addToCart = (e) => {
 
     const name = e.target.name
     const price = e.target.value
     
     setCart(
-      [{"id": numberID,
+      [{"id": uuidv4(),
        "name": name,
        "price": price,
     },...cart]
       );
       setTotal(total + parseInt(e?.target.value))
-      setNumberID(uuidv4())
+      // setNumberID(uuidv4())
 
   }
 
@@ -92,9 +86,9 @@ export default function Home() {
       
   ));
 
-  const renderedCart = cart.map((item)=>(
+  const itemList = cart.map((item)=>(
     
-    <li key={item.id}>
+    <li key={item.id} className={styles.listitem}>
        {item.name} ,${item.price}
        <button className={styles.buttonAlt} slot={item.id} title={item.name} name={item.name} value={item.price}onClick={removeFromCart}>-</button>
     </li>
@@ -105,34 +99,61 @@ export default function Home() {
   if (loading) return <h1 className={styles.title}>LOADING</h1>
 
   return (
+
     <div className={styles.container}>
         <main className={styles.main}>
 
               <h1 className={styles.title}>Product Viewer</h1>
                 <div className={styles.gridshow}>
-                {data.length !== 0 ? <><h1>CART </h1><p>Total: ${total} item count: {cart.length}</p><button className={styles.button} onClick={clearCart}>Clear Cart</button></> : null}
+
+                {data.length !== 0 ? 
                 
-                <ul>
-                  {renderedCart}
+                    //  <Cart 
+                    //    cart={cart} 
+                    //    clearCart={clearCart()}
+                    //    total={total}
+                    //  /> 
+
+                      <div className={styles.cart}>
+                          <h1 className={styles.title}>CART </h1>
+                          
+                          
+                              <ul className={styles.list}>
+                                {itemList}
+                              </ul>
+
+                            <p className={styles.description}>
+                              Total: ${total} item count: {cart.length}<br/>
+                              <button className={styles.button} onClick={clearCart}>Empty Cart</button>
+                            </p>
+                          
+                      </div> 
                   
-                </ul>
+                : null}
+                
+                
                  
                 </div >
 
-              <div className={styles.description}>
-                
-                {data.length == 0 ? <button className={styles.button} onClick={apiGet}>View Products</button> : null}
-                
-              </div>
+
+              
+                {data.length == 0 ? 
+                    <div className={styles.description}>
+                      <button className={styles.button} onClick={apiGet}>View Products</button>
+                    </div>
+                 : null}
+              
+
 
               <div className={styles.gridshow}>
                 {renderedData}
               </div >
 
+
               <div>
             </div>
         </main>
-        {/* <button onClick={logCart}>log cart</button> */}
+        <button onClick={logCart}>log cart</button>
     </div>
   )
 

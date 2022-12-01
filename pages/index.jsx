@@ -1,12 +1,13 @@
 import styles from '../styles/Home.module.css'
 import React, { useState, useEffect } from "react";
 import { RatingStar } from "rating-star";
+import { v4 as uuidv4 } from 'uuid';
 
 const url = "https://dummyjson.com/products?skip=5&limit=100";
 
 export default function Home() {
   const [data, setData] = useState([]);
-  const [numberID, setNumberID] = useState(0);
+  const [numberID, setNumberID] = useState(uuidv4());
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -31,8 +32,7 @@ export default function Home() {
   };
 
   const removeFromCart = (e) => {
-    // const name = e.target.getAttribute("name")
-    const id = parseInt(e.target.getAttribute("slot"))
+    const id = e.target.getAttribute("slot")
     const price = e.target.getAttribute("value")
 
 
@@ -57,7 +57,7 @@ export default function Home() {
     },...cart]
       );
       setTotal(total + parseInt(e?.target.value))
-      setNumberID(numberID+1)
+      setNumberID(uuidv4())
 
   }
 
@@ -108,7 +108,7 @@ export default function Home() {
     <div className={styles.container}>
         <main className={styles.main}>
 
-              <h1 className={styles.title}>Product Viewer</h1><button onClick={logCart}>log cart</button>
+              <h1 className={styles.title}>Product Viewer</h1>
                 <div className={styles.gridshow}>
                 {data.length !== 0 ? <><h1>CART </h1><p>Total: ${total} item count: {cart.length}</p><button className={styles.button} onClick={clearCart}>Clear Cart</button></> : null}
                 
@@ -132,6 +132,7 @@ export default function Home() {
               <div>
             </div>
         </main>
+        {/* <button onClick={logCart}>log cart</button> */}
     </div>
   )
 

@@ -2,24 +2,24 @@ import React from 'react'
 import styles from '../styles/Home.module.css'
 
 
-export default function Cart({cart, total, clearCart}) {
+export default function Cart({ cart, total, clearCart, cartList }) {
 
-    const itemList = cart.map((item)=>(
-    
-        <li key={item.id} styles={styles.listitem}>
-           {item.name} ,${item.price}
-           <button className={styles.buttonAlt} slot={item.id} title={item.name} name={item.name} value={item.price}onClick={removeFromCart}>-</button>
-        </li>
-      
-    ));
 
-  return (
-    <div className={styles.cart}><h1>CART </h1>
-                      <p>Total: ${total} item count: {cart.length}</p>
-                      <button className={styles.button} onClick={clearCart}>Empty Cart</button>
-                          <ul className={styles.list}>
-                            {itemList}
-                          </ul>
-                    </div> 
-  )
+    return (
+        <div className={styles.cart}>
+            <h1 className={styles.title}>CART</h1>
+
+            <ul className={styles.list}>
+                {cartList}
+            </ul>
+
+            <p className={styles.description}>
+                <sup>Total: ${total}</sup>
+                <br />
+                <sup>Items:{cart.length}</sup>
+                <br />
+                <button className={styles.button} onClick={clearCart()}>Empty Cart</button>
+            </p>
+        </div>
+    )
 }

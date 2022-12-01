@@ -1,8 +1,8 @@
 import styles from '../styles/Home.module.css'
 import React, { useState, useEffect } from "react";
-import { RatingStar } from "rating-star";
+// import { RatingStar } from "rating-star";
 import { v4 as uuidv4 } from 'uuid';
-import Cart from './Cart';
+// import Cart from './Cart';
 
 const url = "https://dummyjson.com/products?skip=0&limit=15";
 
@@ -73,7 +73,7 @@ export default function Home() {
 
     <div key={id} className={styles.card}>
       <h2>{title}</h2>
-      <img style={imgStyle} src={thumbnail} />
+      <img alt="thumbnail"style={imgStyle} src={thumbnail} />
       <p>{description}</p>
       <p>${price}</p>
       <button

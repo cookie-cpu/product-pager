@@ -30,49 +30,44 @@ export default function Home() {
       });
   };
 
-  const removeFromCart = () => {
-    // setTotal(total - parseInt(event?.target.value))
+  const removeFromCart = (e) => {
+    // const name = e.target.getAttribute("name")
+    const id = parseInt(e.target.getAttribute("slot"))
+    const price = e.target.getAttribute("value")
+
+
+    setTotal(total - parseInt(price))
+
+    setCart(cart.filter(item => item.id !== id))
+    console.log(cart);
     
-    // console.log(`
-    //   ID:${event?.target.slot},
-    //   Name:${event.target.title},
-    //   Price:${event.target.value}
-    //   `);
+  }
+
+  
+  
+  const addToCart = (e) => {
+
+    const name = e.target.name
+    const price = e.target.value
     
-    
+    setCart(
+      [{"id": numberID,
+       "name": name,
+       "price": price,
+    },...cart]
+      );
+      setTotal(total + parseInt(e?.target.value))
+      setNumberID(numberID+1)
+
+  }
+
+  const logCart = () => {
+    console.log(cart);
   }
 
   const clearCart = () => {
     setCart([])
     setTotal(0)
-  }
-  
-  const addToCart = () => {
-    
-    // console.log("event:",event?.target);
-    // setCart(
-    //   [[event?.target.name, event?.target.value, event?.target.slot]
-    //     ,...cart]
-    // )
-    setCart(
-      [{"id": numberID,
-       "name": event?.target.name,
-       "price": event?.target.value,
-    },...cart]
-      );
-      setTotal(total + parseInt(event?.target.value))
-      setNumberID(numberID+1)
-
-
-    // setCart([...cart, event?.target.name, event?.target.slot])
-    // console.log(
-    //   cart.map (item) => (`${elem.id}, ${elem.name}, ${elem.price}`)
-    //   );
-    // console.log(cart[0].id);
-  }
-
-  const logCart = () => {
-    console.log(cart);
   }
 
   const imgStyle = {
@@ -84,13 +79,11 @@ export default function Home() {
 
         <div key={id} className={styles.card}>
           <h2>{title}</h2>
-          <p>hello s</p>
-          
           <img style={imgStyle} src={thumbnail}/>
           <p>{description}</p>
           <p>${price}</p>
             <p>
-              {/* <RatingStar id={id} rating={rating} /><sup>{rating}</sup> */}
+              {/* <RatingStar id={id} rating={rating} /> */}
             </p>
           {/* <p>Only {stock} left in stock!</p> */}
           {/* <h3>{brand}</h3> */}
@@ -99,20 +92,11 @@ export default function Home() {
       
   ));
 
-  // const renderedCart = cart.map((id, title, price: any)=>(
-    
-  //     <div key={id} className={styles.cartitem}>
-  //        <h2>{title}</h2><sup>${price}</sup>
-  //        <p>{id}</p>
-  //     </div>
-    
-  // ));
-
   const renderedCart = cart.map((item)=>(
     
     <li key={item.id}>
        {item.name} ,${item.price}
-       {/* <button className={styles.buttonAlt} slot={item.id} title={item.name} name={item.name} value={item.price}onClick={removeFromCart}>-</button> */}
+       <button className={styles.buttonAlt} slot={item.id} title={item.name} name={item.name} value={item.price}onClick={removeFromCart}>-</button>
     </li>
   
 ));

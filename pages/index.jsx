@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid';
 // import Cart from './Cart';
 
-const url = "https://dummyjson.com/products?skip=0&limit=15";
+const url = "https://dummyjson.com/products?skip=0&limit=100";
 
 const imgStyle = {
   width: "150px",
@@ -21,6 +21,18 @@ export default function Home() {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
+
+  const [searchInput, setSearchInput] = useState('');
+  const [filteredData, setFilteredData] = useState([]);
+
+  const searchItems = (searchValue) => {
+    if (searchValue == ''){setFilteredData([])}
+    setSearchInput(searchValue)
+    setFilteredData(
+      data.filter((item) => {return Object.values(item).join('').toLowerCase().includes(searchInput.toLowerCase())})
+    )
+    console.log(filteredData);
+  }
 
   const fetchApi = () => {
     setLoading(true)
@@ -94,6 +106,31 @@ export default function Home() {
 
   ));
 
+  const renderFilteredData = filteredData.map(({ id, title, description, price, stock, brand, category, thumbnail, images, rating }) => (
+
+    <div key={id} className={styles.card}>
+      <h2>{title}</h2>
+      <img alt="thumbnail"style={imgStyle} src={thumbnail} />
+      <p>{description}</p>
+      <p>${price}</p>
+      <button
+        className={styles.buttonAlt}
+        value={price}
+        slot={id}
+        id={id}
+        title={title}
+        name={title}
+        key={id}
+        image={thumbnail}
+        stock={stock}
+        brand={brand}
+        category={category}
+        images={images}
+        onClick={addToCart}>+</button>
+    </div>
+
+  ));
+
 
   const cartList = cart.map((item) => (
 
@@ -120,28 +157,31 @@ export default function Home() {
       <main className={styles.main}>
 
         <h1 className={styles.title}>Product Viewer</h1>
+        
         <div className={styles.gridshow}>
 
           {data.length !== 0 ?
+          <>
             <div className={styles.cart}>
-              <h1 className={styles.title}>CART</h1>
+                <h1 className={styles.title}>CART</h1>
 
-              <ul className={styles.list}>
-                {cartList}
-              </ul>
-
-              <p className={styles.description}>
-                <sup>Total: ${total}</sup>
-                <br />
-                <sup>Items:{cart.length}</sup>
-                <br />
-                <button className={styles.button} onClick={clearCart}>Empty Cart</button>
-              </p>
-            </div>
-
+                <ul className={styles.list}>
+                  {cartList}
+                </ul>
+              
+                <p className={styles.description}>
+                  <sup>Total: ${total}</sup>
+                  <br />
+                  <sup>Items:{cart.length}</sup>
+                  <br />
+                  <button className={styles.button} onClick={clearCart}>Empty Cart</button>
+                </p>
+              </div>
+              <input placeholder='Search...' onChange={(e) => searchItems(e.target.value)}></input>{searchInput}
+          </>  
             : null}
         </div >
-
+        
 
 
         {data.length == 0 ?
@@ -153,7 +193,7 @@ export default function Home() {
 
 
         <div className={styles.gridshow}>
-          {renderedProducts}
+          {filteredData.length > 1? renderFilteredData : renderedProducts}
         </div >
 
 

@@ -1,18 +1,18 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+// import type { NextApiRequest, NextApiResponse } from 'next'
 
-type Data = {
-  total: number
-}
-
-
+// type Data = {
+//   total: number
+// }
 
 
-export default function handler(
+let total = 0;
+
+export default function handler(req,res
   
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
+  // req: NextApiRequest,
+  // res: NextApiResponse<Data>
 ) {
-  let total = 0;
+  
   if (req.method === 'POST') {
     console.log(`POST REQUEST: SOMEONE SPENT: $${req.body}`);
     total = total+parseInt(req.body) 

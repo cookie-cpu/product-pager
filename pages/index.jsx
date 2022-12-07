@@ -53,8 +53,8 @@ export default function Home() {
     fetch('/api/store')
     .then((response) => response.json())
       .then((json) => {
-        // setStoreTotal(json)
-        console.log(json);
+        setStoreTotal(json.total)
+        // console.log(json);
       });
  
   };

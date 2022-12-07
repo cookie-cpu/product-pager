@@ -22,18 +22,24 @@ export default function Home() {
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
 
+  const [searchStatus, setSearchStatus] = useState('')
   const [searchInput, setSearchInput] = useState('');
   const [filteredData, setFilteredData] = useState([]);
 
   const searchItems = (searchValue) => {
-    if (searchValue == ''){setFilteredData([])}
+    const searchErrorMessage = 'No items found matching search'
     setSearchInput(searchValue)
+
+    if (searchValue == '' || ' ' || searchStatus == searchErrorMessage){setFilteredData([]),(setSearchStatus(''))}
+
+    if (data.filter((item) => {return Object.values(item).join('').toLowerCase().includes(searchInput.toLowerCase())}).length == 0)
+    {setSearchStatus(searchErrorMessage)}
+    // console.log((data.filter((item) => {return Object.values(item).join('').toLowerCase().includes(searchInput.toLowerCase())})));
     setFilteredData(
       data.filter((item) => {return Object.values(item).join('').toLowerCase().includes(searchInput.toLowerCase())})
     )
-    console.log(filteredData);
+    // console.log(filteredData);
   }
-
   const fetchApi = () => {
     setLoading(true)
     fetch(url)
@@ -42,6 +48,7 @@ export default function Home() {
         setData(json.products);
         setLoading(false)
       });
+ 
   };
 
   const clearCart = () => {
@@ -177,7 +184,8 @@ export default function Home() {
                   <button className={styles.button} onClick={clearCart}>Empty Cart</button>
                 </p>
               </div>
-              <input placeholder='Search...' onChange={(e) => searchItems(e.target.value)}></input>{searchInput}
+              <input placeholder='Search...' onChange={(e) => searchItems(e.target.value)}></input>
+              {/* {searchInput} */}
           </>  
             : null}
         </div >
@@ -193,7 +201,8 @@ export default function Home() {
 
 
         <div className={styles.gridshow}>
-          {filteredData.length > 1? renderFilteredData : renderedProducts}
+          {searchStatus? searchStatus :filteredData.length > 0? renderFilteredData : renderedProducts}
+          {/* {filteredData.length > 0? renderFilteredData : renderedProducts} */}
         </div >
 
 

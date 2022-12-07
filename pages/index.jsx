@@ -21,6 +21,7 @@ export default function Home() {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [storeTotal, setStoreTotal] = useState(0)
 
   const [searchStatus, setSearchStatus] = useState('')
   const [searchInput, setSearchInput] = useState('');
@@ -48,8 +49,24 @@ export default function Home() {
         setData(json.products);
         setLoading(false)
       });
+
+    fetch('/api/store')
+    .then((response) => response.json())
+      .then((json) => {
+        // setStoreTotal(json)
+        console.log(json);
+      });
  
   };
+
+  const fetchStoreData = () => {
+    fetch('/api/store')
+    .then((response) => response.json())
+      .then((json) => {
+        setStoreTotal(json.total)
+        console.log(json);
+      });
+  }
 
   const clearCart = () => {
     setCart([])
@@ -85,6 +102,21 @@ export default function Home() {
     );
 
     setTotal(total + parseInt(e.target.value))
+  }
+
+  const buyCart = (e) => {
+
+    // console.log(`spent ${total}`);
+    alert(`Thank you for shopping! You spent $${total}`)
+    // fetch('/api/store', {method: 'POST'})
+    fetch('/api/store', {
+      method: 'POST',
+      body: total
+      })
+
+    //reset cart
+    setCart([])
+    setTotal(0)
   }
 
  
@@ -182,6 +214,7 @@ export default function Home() {
                   <sup>Items:{cart.length}</sup>
                   <br />
                   <button className={styles.button} onClick={clearCart}>Empty Cart</button>
+                  <button className={styles.button} onClick={buyCart}>Buy</button>
                 </p>
               </div>
               <input placeholder='Search...' onChange={(e) => searchItems(e.target.value)}></input>
@@ -214,8 +247,13 @@ export default function Home() {
 
 
       {/* console logs for dev purposes */}
-      <button onClick={() => { console.log(cart); }}>Log cart</button>
-      <button onClick={() => { console.log(data); }}>Log products</button>
+      <div>
+        <button onClick={() => { console.log(cart); }}>Log cart</button>
+        <button onClick={() => { console.log(data); }}>Log products</button>
+        <button onClick={fetchStoreData}>Update Store Data</button>
+        {` Store Total is: ${storeTotal}`}
+      </div>
+      
     </div>
   )
 

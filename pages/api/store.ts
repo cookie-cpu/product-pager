@@ -4,14 +4,15 @@ type Data = {
   total: number
 }
 
-let total = 0;
+
 
 
 export default function handler(
+  
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-
+  let total = 0;
   if (req.method === 'POST') {
     console.log(`POST REQUEST: SOMEONE SPENT: $${req.body}`);
     total = total+parseInt(req.body) 
